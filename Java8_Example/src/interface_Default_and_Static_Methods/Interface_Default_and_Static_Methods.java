@@ -1,3 +1,7 @@
+package interface_Default_and_Static_Methods;
+
+//@FunctionalInterface 어노테이션을 사용하는데, 이 어노테이션은 해당 인터페이스가 함수형 인터페이스 조건에 맞는지 검사해줍니다.
+//인터페이스 검증과 유지보수를 위해 붙여주는 게 좋습니다.
 interface InterfaceClass {
     /*
      * 인터페이스에 디폴트 메소드와 정적 메소드를 포함할 수 있게 되었습니다.
@@ -19,12 +23,13 @@ interface InterfaceClass {
     }
 }
 
-class TestClass implements InterfaceClass {}
+class TestClass implements InterfaceClass {
+}
 
 public class Interface_Default_and_Static_Methods {
     public static void main(String[] args) {
         TestClass testClass = new TestClass();
-        testClass.save();
-        InterfaceClass.findByAll();
+        testClass.save();  // save
+        InterfaceClass.findByAll(); // userInfo
     }
 }
