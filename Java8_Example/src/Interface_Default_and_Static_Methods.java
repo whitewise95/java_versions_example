@@ -1,6 +1,4 @@
-import static java.versions.java_8.Interface_Default_and_Static_Methods.findByAll;
-
-public interface Interface_Default_and_Static_Methods {
+interface InterfaceClass {
     /*
      * 인터페이스에 디폴트 메소드와 정적 메소드를 포함할 수 있게 되었습니다.
      *
@@ -21,16 +19,12 @@ public interface Interface_Default_and_Static_Methods {
     }
 }
 
-class TestClass implements Interface_Default_and_Static_Methods {
-}
+class TestClass implements InterfaceClass {}
 
-class DefaultMethodTest {
-
+public class Interface_Default_and_Static_Methods {
     public static void main(String[] args) {
         TestClass testClass = new TestClass();
-        testClass.save();  // save;
-        findByAll();  // userInfo;
+        testClass.save();
+        InterfaceClass.findByAll();
     }
-
 }
-
