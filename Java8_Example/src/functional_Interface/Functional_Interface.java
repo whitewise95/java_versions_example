@@ -1,13 +1,15 @@
 package functional_Interface;
 
-import java.util.Objects;
+import java.util.function.*;
 
 /*
+ * https://codechacha.com/ko/java8-functional-interface/를 참고함
  *  ⭐️자바8 에서는 함수형 인터페이스를 사용할 수 있다. 그렇다면 이 함수형 인터페이스를 사용하는 이유는?
  *
  * 1.자바의 람다식은 함수형 인터페이스로만 접근이 가능
  * 2.람다식으로 만든 객체에 접근하기 위해
  * */
+// @FunctionalInterface
 public class Functional_Interface {
     public static void main(String[] args) {
 
@@ -22,7 +24,8 @@ public class Functional_Interface {
             }
             System.out.println(value);
         };
-        fi.setText("0");
+        FunctionalInterface functionalInterface = FunctionalInterface.addText(fi);
+        functionalInterface.setText("0");
         //⚙️실행결과 : "3","2","1","0"
 
 
@@ -56,50 +59,37 @@ public class Functional_Interface {
 
 
         /* ⭐️네번째 : Function - Function<T, R>는 T타입의 인자를 받고, R타입의 객체를 리턴합니다. */
+        Function<Integer, String> function = value -> Integer.toString(value);
+        System.out.println(function.apply(10).getClass().getSimpleName()); //⚙️실행결과 : String
 
+        // 다음과 같이 compose를 사용하여 새로운 Function을 만들 수 있습니다. apply를 호출하면 add 먼저 수행되고 그 이후에 multiply가 수행됩니다.
+        Function<Integer, Integer> multiply = (value) -> value * 2;
+        Function<Integer, Integer> add = (value) -> value + 3;
+        Function<Integer, Integer> addThenMultiply = multiply.compose(add);
+        System.out.println(addThenMultiply.apply(3));  //⚙️실행결과 : 12
+
+
+
+        /* ⭐️다섯번째 : Predicate - Predicate<T>는 T타입 인자를 받고 결과로 boolean을 리턴합니다. */
+        Predicate<Integer> isEven = value -> value % 2 == 0;
+        System.out.println(isEven.test(10));  //⚙️실행결과 : true
+
+        // and()는 두개의 Predicate가 true일 때 true
+        Predicate<Integer> isBiggerThanFive = value -> value % 2 == 0;
+        Predicate<Integer> isLowerThanSix = value -> value < 6;
+        System.out.println(isBiggerThanFive.and(isLowerThanSix).test(4)); //⚙️실행결과 : true 4는 6보다 작으며, 짝수이기 때문에
+
+        // or()는 두개 중에 하나만 true이면 true
+        System.out.println(isBiggerThanFive.or(isLowerThanSix).test(10));   //⚙️실행결과 : true 10은 4보다 크지만, 짝수이기때문에
+        System.out.println(isBiggerThanFive.or(isLowerThanSix).test(11));   //⚙️번외 실행결과 : false 11은 4보다 크며, 홀수 이기때문에
 
     }
 }
 
 interface FunctionalInterface {
     void setText(String value);
-}
 
-interface Runnable {
-    void run();
-}
-
-interface Supplier<T> {
-    T get();
-}
-
-interface Consumer<T> {
-    void accept(T t);
-
-    default Consumer<T> andThen(Consumer<? super T> after) {
-        Objects.requireNonNull(after);
-        return (T t) -> {
-            accept(t);
-            after.accept(t);
-        };
-    }
-}
-
-
-interface Function<T, R> {
-    R apply(T t);
-
-    default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
-        Objects.requireNonNull(before);
-        return (V v) -> apply(before.apply(v));
-    }
-
-    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
-        Objects.requireNonNull(after);
-        return (T t) -> after.apply(apply(t));
-    }
-
-    static <T> Function<T, T> identity() {
-        return t -> t;
+    static FunctionalInterface addText(FunctionalInterface functionalInterface) {
+        return value -> functionalInterface.setText(value);
     }
 }
