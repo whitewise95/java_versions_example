@@ -5,6 +5,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.*;
 import java.util.Calendar;
+import java.util.Map;
 
 /*
  * 기존에 사용하던 날짜 관련 클래스인 Date, Calendar 등은 가변 객체이므로 Thread-Safe하지 않다.
@@ -117,5 +118,21 @@ public class LocalDateTimeApi {
                 .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)); // = 해당 주차에 월요일
         System.out.println(desiredDate);
         // 2022-12-12
+
+//       분석하기
+//        /**
+//         *  기준 날짜에서 + 또는 - 하기
+//         * */
+//        import org.joda.time.DateTime;
+//        import org.joda.time.DateTimeZone;
+//        import org.joda.time.format.DateTimeFormat;
+//        import org.joda.time.format.DateTimeFormatter;
+//        Map<String, Object> param = Maps.newHashMap();
+//
+//        String format2 = "yyyy-MM-dd";
+//        DateTime now = new DateTime(DateTimeZone.forID("Asia/Seoul"));
+//        DateTimeFormatter outputFormatter = DateTimeFormat.forPattern(format2);
+//        param.put("endSearchDate", outputFormatter.print(now));
+//        param.put("startSearchDate", outputFormatter.print(now.minusMonths(1)));
     }
 }
