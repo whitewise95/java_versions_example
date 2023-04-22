@@ -3,8 +3,10 @@ package java8_기능.dateAndTimeAPI_지원;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.time.temporal.*;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 
 /*
@@ -119,21 +121,28 @@ public class LocalDateTimeApi {
         System.out.println(desiredDate);
         // 2022-12-12
 
-//       분석하기
-//        /**
-//         *  기준 날짜에서 + 또는 - 하기
-//         *  https://www.joda.org/joda-time/dependency-info.html
-//         * */
-//        import org.joda.time.DateTime;
-//        import org.joda.time.DateTimeZone;
-//        import org.joda.time.format.DateTimeFormat;
-//        import org.joda.time.format.DateTimeFormatter;
-//        Map<String, Object> param = Maps.newHashMap();
-//
-//        String format2 = "yyyy-MM-dd";
-//        DateTime now = new DateTime(DateTimeZone.forID("Asia/Seoul"));
-//        DateTimeFormatter outputFormatter = DateTimeFormat.forPattern(format2);
-//        param.put("endSearchDate", outputFormatter.print(now));
-//        param.put("startSearchDate", outputFormatter.print(now.minusMonths(1)));
+
+        /**
+         *  요일 구하기
+         * */
+        // 1. LocalDate 생성
+        LocalDate locaDate = LocalDate.of(2021, 12, 25);
+        System.out.println(date); // 2021-12-25
+
+        // 2. DayOfWeek 객체 구하기
+        DayOfWeek dayOfWeek = locaDate.getDayOfWeek();
+
+        // 3. 텍스트 요일 구하기 (영문)
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.FULL, Locale.US));  // Saturday
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.US));  // S
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.US));  // Sat
+
+        // 4. 텍스트 요일 구하기 (한글)
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN));  // 토요일
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREAN));  // 토
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN));  // 토
+
+        // 5. 텍스트 요일 구하기 (default)
+        System.out.println(dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()));  // 토요일
     }
 }
