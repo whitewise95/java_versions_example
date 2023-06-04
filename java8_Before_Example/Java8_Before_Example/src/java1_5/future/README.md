@@ -89,6 +89,7 @@ public interface ExecutorService extends Executor {
 ```
 
 ### 2-3. Executors - ExecutorService 생성
+
 ```text
 - newSingleThreadExecutor : 단일 쓰레드로 구성된 스레드 풀을 생성. 한 번에 하나의 작업만 실행
 - newFixedThreadPool : 고정된 크기의 쓰레드 풀을 생성. 크기는 인자로 주어진 n 과 동일
@@ -96,6 +97,108 @@ public interface ExecutorService extends Executor {
 - newScheduledThreadPool : 스케줄링 기능을 갖춘 고정 크기의 쓰레드 풀을 생성. 주기적이거나 지연이 발생하는 작업을 실행
 - newWorkStealingPool : work steal 알고리즘을 사용하는 ForkJoinPool 생성
 ```
+
+---
+
+<br>
+<br>
+
+## 3. TEST
+
+### 3-1. 메소드 생성
+
+> 두개의 메소드를 만든다. `getFuture` 는 그냥 1의 값을 반환하고 `getFutureCompleteAfter1s`는 1초를 기다리고 1을 반환하는 메소드이다.
+
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class FutureExample {
+    /**
+     * 새로운 쓰레드를 생성하여 1을 반환
+     */
+    public static Future<Integer> getFuture() {
+        var executor = Executors.newSingleThreadExecutor();
+
+        try {
+            return executor.submit(() -> 1);
+        } finally {
+            executor.shutdown();
+        }
+    }
+
+    /**
+     * 새로운 쓰레드를 생성하고 1초 대기 후 1을 반환
+     */
+    public static Future<Integer> getFutureCompleteAfter1s() {
+        var executor = Executors.newSingleThreadExecutor();
+
+        try {
+            return executor.submit(() -> {
+                Thread.sleep(1000);
+                return 1;
+            });
+        } finally {
+            executor.shutdown();
+        }
+    }
+}
+```
+
+<br> 
+
+### isDone(), isCancelled()
+
+> `FutureExample.getFuture()` 호출해 Future 를 반환 받는다. get() 전에는 실행되지 않기에 false가 get 이후에는 실행되었기에 값과 true를 확인할 수 있다.
+
+```java
+class Test {
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        Future future = FutureExample.getFuture();
+        System.out.println(future.isDone()); // false
+        System.out.println(future.isCancelled()); // false
+
+        var result = future.get();
+        System.out.println(result.equals(1));  //true
+        System.out.println(future.isDone());   //true
+        System.out.println(future.isCancelled());  //false
+    }
+}
+```
+
+### TimeOut
+
+> get에 Timeout을 설정하면 해당 시간에 메소드의 결과를 볼 수 있다.
+- 1.5초를 준 future는 `getFutureCompleteAfter1s` 는 1초를 대기후 값을 반환하기에 정상 작동을 했지만
+- 0.5초 를 준 future2는 TimeoutException가 터진걸 확인 할 수 있다.
+
+```java
+class Test {
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        Future future = FutureExample.getFutureCompleteAfter1s();
+        var result = future.get(1500, TimeUnit.MILLISECONDS);
+        System.out.println(result.equals(1));  //true
+
+
+        Future future2 = FutureExample.getFutureCompleteAfter1s();
+        Exception exception = null;
+        try {
+            Object o = future2.get(500, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            exception = e;
+        }
+
+        System.out.println(exception != null);
+
+    }
+}
+```
+
+## Future 인터페이스의 한계
+- cancel을 제외하고 외부에서 future를 컨트롤할 수 없다.
+- 반환된 결과를 get() 해서 접근하기 때문에 비동기 처리가 어렵다.
+- 완료되었거나 에러가 발생했는지 구분하기 어렵다.
+
 
 
 
