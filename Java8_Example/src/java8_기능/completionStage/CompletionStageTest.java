@@ -96,21 +96,21 @@ public class CompletionStageTest {
         /**
          *  runningStage
          * */
-        CompletionStage<Integer> stage = Helper.runningStage();
-        logger.log(Level.INFO, "startMain");
-        stage.thenAccept(i -> logger.log(Level.INFO, "thenAccept1 : " + i))
-                .thenAccept(i -> logger.log(Level.INFO, "thenAccept2 : " + i));
-        Thread.sleep(2000);
-
-
-        System.out.println("=====================================================");
-
-        logger.log(Level.INFO, "startMain");
-        CompletionStage<Integer> stage2 = Helper.runningStage();
-        stage2.thenAcceptAsync(i -> logger.log(Level.INFO, "thenAcceptAsync : " + i))
-                .thenAcceptAsync(i -> logger.log(Level.INFO, "thenAcceptAsync : " + i));
-
-        Thread.sleep(2000);
+//        CompletionStage<Integer> stage = Helper.runningStage();
+//        logger.log(Level.INFO, "startMain");
+//        stage.thenAccept(i -> logger.log(Level.INFO, "thenAccept1 : " + i))
+//                .thenAccept(i -> logger.log(Level.INFO, "thenAccept2 : " + i));
+//        Thread.sleep(2000);
+//
+//
+//        System.out.println("=====================================================");
+//
+//        logger.log(Level.INFO, "startMain");
+//        CompletionStage<Integer> stage2 = Helper.runningStage();
+//        stage2.thenAcceptAsync(i -> logger.log(Level.INFO, "thenAcceptAsync : " + i))
+//                .thenAcceptAsync(i -> logger.log(Level.INFO, "thenAcceptAsync : " + i));
+//
+//        Thread.sleep(2000);
 
 
         /**
