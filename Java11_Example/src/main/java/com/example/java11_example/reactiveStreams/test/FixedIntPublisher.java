@@ -21,6 +21,7 @@ public class FixedIntPublisher implements Flow.Publisher<FixedIntPublisher.Resul
         List<Integer> numbers = Collections.synchronizedList(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7)));
 
         Iterator<Integer> iterator = numbers.iterator();
-        new IntSubscription(subscriber, iterator);
+        IntSubscription intSubscription = new IntSubscription(subscriber, iterator);
+        subscriber.onSubscribe(intSubscription);
     }
 }

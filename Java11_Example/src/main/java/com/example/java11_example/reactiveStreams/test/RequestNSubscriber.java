@@ -22,7 +22,7 @@ public class RequestNSubscriber<T> implements Flow.Subscriber<T> {
     public void onNext(T item) {
         log.info("item: {}", item);
 
-        if (count++ % 0 == 0) {
+        if (count++ % n == 0) {
             log.info("send request");
             this.subscription.request(n);
         }

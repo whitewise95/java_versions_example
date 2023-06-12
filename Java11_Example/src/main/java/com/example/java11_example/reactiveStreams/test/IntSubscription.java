@@ -15,7 +15,7 @@ public class IntSubscription implements Flow.Subscription {
     private final Flow.Subscriber<? super FixedIntPublisher.Result> subscriber;
     private final Iterator<Integer> numbers;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final AtomicInteger count = new AtomicInteger();
+    private final AtomicInteger count = new AtomicInteger(1);
     private final AtomicBoolean isCompleted = new AtomicBoolean(false);
 
 
