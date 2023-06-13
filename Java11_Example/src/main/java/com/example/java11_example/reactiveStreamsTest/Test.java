@@ -1,4 +1,4 @@
-package com.example.java11_example.reactiveStreams.test;
+package com.example.java11_example.reactiveStreamsTest;
 
 import java.util.concurrent.Flow;
 

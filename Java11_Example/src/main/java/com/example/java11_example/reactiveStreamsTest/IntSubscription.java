@@ -1,4 +1,4 @@
-package com.example.java11_example.reactiveStreams.test;
+package com.example.java11_example.reactiveStreamsTest;
 
 import lombok.Data;
 
@@ -27,7 +27,7 @@ public class IntSubscription implements Flow.Subscription {
     @Override
     public void request(long n) {
         executor.submit(() -> {
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i <n ; i++) {
                 if (numbers.hasNext()){
                     int number = numbers.next();
                     numbers.remove();

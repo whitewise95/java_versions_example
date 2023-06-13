@@ -1,4 +1,4 @@
-package com.example.java11_example.reactiveStreams.test;
+package com.example.java11_example.reactiveStreamsTest;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
